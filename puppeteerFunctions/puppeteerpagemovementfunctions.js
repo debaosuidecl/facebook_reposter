@@ -194,14 +194,20 @@ function preparepostingpage(page) {
     await page.goto("https://www.facebook.com/groups/255527996169734/");
     // await page.goto("https://www.facebook.com/groups/255527996169734/");
     // await page.goto("https://www.facebook.com/groups/4082205051895086");
-    const selector = await page.waitForSelector(
-      `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
-    );
+    let selector;
 
-    if (!selector)
-      await page.waitForXPath(
-        "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+    try {
+      selector = await page.waitForSelector(
+        `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
       );
+
+      if (!selector)
+        await page.waitForXPath(
+          "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+        );
+    } catch (error) {
+      process.exit(1);
+    }
 
     resolve(page);
   });
