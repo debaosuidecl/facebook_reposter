@@ -56,10 +56,11 @@ function fetchResultsForGroup2(page, groupurl) {
     }
     console.log("evaluating");
     const result = await page.evaluate(pageScrapeAlgo);
-    // console.log(result, 57);
+    console.log(result, 57);
     let newresult = "";
 
     if (result.link) {
+      console.log("link found");
       newresult = await getlonglinkAndTransform(result.link, result.post);
     }
 
