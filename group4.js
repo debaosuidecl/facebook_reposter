@@ -14,10 +14,12 @@ const INDEX = 4;
 
   try {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       //   slowMo: 10,
     });
-    const page = await signIn(browser);
+    const pageinit = await signIn(browser);
+    const page = await browser.newPage();
+
     let initfacebookpostingpage = await browser.newPage();
     let initid = Math.random();
     let activepostpages = [
