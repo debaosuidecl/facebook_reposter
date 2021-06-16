@@ -17,7 +17,7 @@ const INDEX = 1;
 
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       //   slowMo: 10,
     });
     let pageinit = await signIn(browser);
@@ -49,8 +49,8 @@ const INDEX = 1;
         console.log(error);
         continue;
       }
-      if (false) {
-        // if (!grandMatch(result)) {
+      // if (false) {
+      if (!grandMatch(result)) {
         console.log("there is no match");
         console.timeEnd("timer");
 

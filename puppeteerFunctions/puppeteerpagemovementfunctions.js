@@ -11,7 +11,13 @@ function fetchResultsForGroup2(page, groupurl) {
     } catch (error) {
       await page.waitForSelector(`[href="${groupurl}"]`);
     }
-    await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
+
+    try {
+      await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
     console.log("evaluating");
     const result = await page.evaluate(pageScrapeAlgo);
 
@@ -62,11 +68,16 @@ function posttogroup(page, post, id) {
   return new Promise(async (resolve, reject) => {
     console.log("done");
 
-    const element = await page.$x(
-      "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+    const element = await page.$(
+      `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
+      // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
     );
-    console.log(element, "xpath element");
-    await element[0].click();
+    // const element = await page.$x(
+    //   "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+    //   // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+    // );
+    // console.log(element, "xpath element");
+    await element.click();
     console.log("clicked");
 
     const formpath =
@@ -132,14 +143,15 @@ function posttogroup(page, post, id) {
 
 function preparepostingpage(page) {
   return new Promise(async (resolve, reject) => {
-    await page.goto("https://www.facebook.com/groups/4082205051895086");
+    await page.goto("https://www.facebook.com/groups/255527996169734/");
+    // await page.goto("https://www.facebook.com/groups/4082205051895086");
     const selector = await page.waitForSelector(
       `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
     );
 
     if (!selector)
       await page.waitForXPath(
-        "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+        "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
       );
 
     resolve(page);
