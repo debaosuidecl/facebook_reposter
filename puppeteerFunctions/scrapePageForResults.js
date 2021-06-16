@@ -1,28 +1,6 @@
 // @ts-nocheck
 async function pageScrapeAlgo() {
-  function removeEmoji(str) {
-    let strCopy = str;
-    const emojiKeycapRegex = /[\u0023-\u0039]\ufe0f?\u20e3/g;
-    const emojiRegex = /\p{Extended_Pictographic}/gu;
-    const emojiComponentRegex = /\p{Emoji_Component}/gu;
-    if (emojiKeycapRegex.test(strCopy)) {
-      strCopy = strCopy.replace(emojiKeycapRegex, "");
-    }
-    if (emojiRegex.test(strCopy)) {
-      strCopy = strCopy.replace(emojiRegex, "");
-    }
-    if (emojiComponentRegex.test(strCopy)) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const emoji of strCopy.match(emojiComponentRegex) || []) {
-        if (/[\d|*|#]/.test(emoji)) {
-          continue;
-        }
-        strCopy = strCopy.replace(emoji, "");
-      }
-    }
-
-    return strCopy;
-  }
+  console.log("hellllooooo");
   function getElementByXpath(path) {
     return document.evaluate(
       path,
@@ -64,9 +42,10 @@ async function pageScrapeAlgo() {
       ),
     ];
   }
-  console.log(headings, "headings");
+  // console.log(headings, "headings");
 
   const headingList = [];
+  let reallink = "";
   headerloop: for (let i = 0; i < headings.length; i++) {
     const linksforthisheading = headings[i].querySelectorAll("a");
 
@@ -91,7 +70,9 @@ async function pageScrapeAlgo() {
         continue;
       }
 
-      selectedlink = possibleamazonlink.split("?")[0] + "?tag=rios0f76-20";
+      selectedlink = possibleamazonlink.split("?")[0] + "";
+
+      // "?tag=rios0f76-20&ref=as_li_ss_tl";
     }
 
     if (!selectedlink) {
@@ -107,18 +88,26 @@ async function pageScrapeAlgo() {
       .trim()
       .replace(/http/, selectedlink)
       .replace(urlRegex, selectedlink)
+      .replace()
       .split("Could we now")[0];
+
+    reallink = selectedlink;
     //   .split(". ");
     // for (let b = 0; b < possibleTextInArray.length; b++) {
     //   if (possibleTextInArray[b].match(urlRegex)) {
     //     headingList.push(removeEmoji(possibleTextInArray[b]).trim());
     //   }
     // }
+
+    console.log(possibleTextInArray, 124);
     headingList.push(possibleTextInArray);
     break;
   }
-  console.log(headingList);
-  return headingList[0];
+  // console.log(headingList);
+  return {
+    post: headingList[0],
+    link: reallink,
+  };
 }
 
 module.exports = pageScrapeAlgo;

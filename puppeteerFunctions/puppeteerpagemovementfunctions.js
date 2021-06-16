@@ -1,7 +1,43 @@
 // @ts-nocheck
 const pageScrapeAlgo = require("./scrapePageForResults");
 const delay = require("./delay");
+const axios = require("axios");
 
+function getlonglinkAndTransform(shortlink, post) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let res = await axios.get(shortlink);
+      // console.log(res)
+
+      // res.data = "";
+
+      let path = res.request.path;
+      console.log(res.request.path, "path");
+
+      let newpost = post.replace(
+        shortlink,
+        `https://www.amazon.com${
+          path.split("?")[0]
+        }?tag=rios0f76-20&ref=as_li_ss_tl`
+      );
+      // console.log(data);
+      resolve(newpost);
+    } catch (error) {
+      // console.log(error);
+      console.log(error.response.request.path, "13");
+      let path = error.response.request.path;
+      let newpost = post.replace(
+        shortlink,
+        `https://www.amazon.com${
+          path.split("?")[0]
+        }?tag=rios0f76-20&ref=as_li_ss_tl`
+      );
+
+      // console.log("new post", newpost);
+      resolve(newpost);
+    }
+  });
+}
 function fetchResultsForGroup2(page, groupurl) {
   //https://www.facebook.com/groups/amzdeals1/
   return new Promise(async (resolve, reject) => {
@@ -20,8 +56,14 @@ function fetchResultsForGroup2(page, groupurl) {
     }
     console.log("evaluating");
     const result = await page.evaluate(pageScrapeAlgo);
+    // console.log(result, 57);
+    let newresult = "";
 
-    resolve(result);
+    if (result.link) {
+      newresult = await getlonglinkAndTransform(result.link, result.post);
+    }
+
+    resolve(newresult);
   });
 }
 function facebookpostpreparation(
@@ -144,6 +186,7 @@ function posttogroup(page, post, id) {
 function preparepostingpage(page) {
   return new Promise(async (resolve, reject) => {
     await page.goto("https://www.facebook.com/groups/255527996169734/");
+    // await page.goto("https://www.facebook.com/groups/255527996169734/");
     // await page.goto("https://www.facebook.com/groups/4082205051895086");
     const selector = await page.waitForSelector(
       `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
@@ -162,4 +205,5 @@ module.exports = {
   fetchResultsForGroup2,
   facebookpostpreparation,
   preparepostingpage,
+  getlonglinkAndTransform,
 };

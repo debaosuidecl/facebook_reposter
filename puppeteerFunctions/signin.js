@@ -13,7 +13,8 @@ function signIn(browser) {
     await page.setViewport({ width: 1000, height: 50600 });
     await page.goto("https://www.facebook.com");
     await page.waitForSelector("#email");
-    await page.type("#email", "oosuide@yahoo.com");
+    // await page.type("#email", "oosuide@yahoo.com");
+    await page.type("#email", "rioschris.pe@gmail.com");
     await page.type("#pass", password);
     await page.click(`[type="submit"]`);
     await page.waitForNavigation();
