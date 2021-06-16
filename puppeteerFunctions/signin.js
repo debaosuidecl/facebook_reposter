@@ -10,7 +10,7 @@ function signIn(browser) {
       "notifications",
     ]);
     await page.setDefaultNavigationTimeout(1000000);
-    await page.setViewport({ width: 1000, height: 50600 });
+    await page.setViewport({ width: 1000, height: 3000 });
     await page.goto("https://www.facebook.com");
     await page.waitForSelector("#email");
     // await page.type("#email", "oosuide@yahoo.com");

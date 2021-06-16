@@ -1,6 +1,6 @@
 // @ts-nocheck
 async function pageScrapeAlgo() {
-  console.log("hellllooooo");
+  // console.log("hellllooooo");
   function getElementByXpath(path) {
     return document.evaluate(
       path,
@@ -33,6 +33,9 @@ async function pageScrapeAlgo() {
   let headings = document.querySelectorAll(
     `.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`
   );
+  // let headings = document.querySelectorAll(
+  //   `.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`
+  // );
 
   if (headings.length <= 0) {
     console.log("locating by xpath");
@@ -42,7 +45,7 @@ async function pageScrapeAlgo() {
       ),
     ];
   }
-  // console.log(headings, "headings");
+  console.log(headings, "headings");
 
   const headingList = [];
   let reallink = "";

@@ -55,8 +55,13 @@ function fetchResultsForGroup2(page, groupurl) {
       process.exit(1);
     }
     console.log("evaluating");
+    await page.bringToFront();
+    // await page.keyboard.press(String.fromCharCode(32));
+    await page.keyboard.press(String.fromCharCode(32));
+    // await page.keyboard.press(String.fromCharCode(32));
     const result = await page.evaluate(pageScrapeAlgo);
     console.log(result, 57);
+    // return;
     let newresult = "";
 
     if (result.link) {

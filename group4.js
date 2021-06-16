@@ -16,6 +16,8 @@ const INDEX = 4;
     const browser = await puppeteer.launch({
       headless: true,
       //   slowMo: 10,
+      args: ["--start-maximized"],
+      defaultViewport: null,
     });
     const pageinit = await signIn(browser);
     const page = await browser.newPage();
