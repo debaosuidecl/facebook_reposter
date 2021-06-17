@@ -1,3 +1,3 @@
 module.exports = {
-  password: "Rios4321_",
+  password: "clementoD1!",
 };

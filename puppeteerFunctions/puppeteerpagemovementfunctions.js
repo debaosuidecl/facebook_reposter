@@ -45,16 +45,32 @@ function fetchResultsForGroup2(page, groupurl) {
     try {
       await page.waitForSelector(`[href="${groupurl}"]`);
     } catch (error) {
+      console.log(error);
       resolve({
         link: "",
       });
     }
 
     await page.bringToFront();
-    await page.keyboard.press(String.fromCharCode(32));
-    await page.keyboard.press(String.fromCharCode(32));
-    await page.keyboard.press(String.fromCharCode(32));
-    await page.keyboard.press(String.fromCharCode(32));
+
+    const vall = await page.evaluate(() => {
+      window.scroll(0, 5000);
+      window.scroll(0, 5000);
+      return "done";
+    });
+
+    console.log(vall, 61);
+    const vall2 = await page.evaluate(() => {
+      window.scroll(0, 5000);
+      window.scroll(0, 5000);
+      return "done";
+    });
+
+    await delay(1000);
+    // await page.keyboard.press(String.fromCharCode(32));
+    // await page.keyboard.press(String.fromCharCode(32));
+    // await page.keyboard.press(String.fromCharCode(32));
+    // await page.keyboard.press(String.fromCharCode(32));
     try {
       await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
     } catch (error) {

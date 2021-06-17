@@ -6,21 +6,21 @@ function matchPercentageNumber(post) {
   return true;
 }
 
-function matchFree(post) {
+function matchFree(post = "") {
   if (!post.match(/free/gi)) {
     return false;
   }
 
   return true;
 }
-function matchGlitch(post) {
+function matchGlitch(post = "") {
   if (!post.match(/glitch/gi)) {
     return false;
   }
 
   return true;
 }
-function pricingError(post) {
+function pricingError(post = "") {
   if (!post.match(/pricing error/gi)) {
     return false;
   }
