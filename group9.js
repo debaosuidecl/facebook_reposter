@@ -47,8 +47,8 @@ const INDEX = 9;
         console.log(error);
         continue;
       }
-      if (false) {
-        //   if (!grandMatch(result)) {
+      // if (false) {
+      if (!grandMatch(result)) {
         console.log("there is no match");
         console.timeEnd("timer");
 
