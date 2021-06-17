@@ -1,4 +1,4 @@
-function matchPercentageNumber(post) {
+function matchPercentageNumber(post = "") {
   if (!post.match(/(85|86|87|88|89|90)(%| percent)/gi)) {
     return false;
   }
