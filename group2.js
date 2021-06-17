@@ -61,9 +61,8 @@ const INDEX = 2;
         if (result && result !== latestText) {
           latestText = result;
           console.log("writing result to file", result);
-          fs.writeFile(`./recentpost/recent${INDEX}.txt`, result, () => {
-            console.log("written");
-          });
+          fs.writeFileSync(`./recentpost/recent${INDEX}.txt`, result);
+          console.log("written");
 
           // post to facebook
 

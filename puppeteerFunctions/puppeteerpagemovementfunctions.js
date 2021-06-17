@@ -45,22 +45,32 @@ function fetchResultsForGroup2(page, groupurl) {
     try {
       await page.waitForSelector(`[href="${groupurl}"]`);
     } catch (error) {
-      await page.waitForSelector(`[href="${groupurl}"]`);
+      resolve({
+        link: "",
+      });
     }
 
+    await page.bringToFront();
+    await page.keyboard.press(String.fromCharCode(32));
+    await page.keyboard.press(String.fromCharCode(32));
+    await page.keyboard.press(String.fromCharCode(32));
+    await page.keyboard.press(String.fromCharCode(32));
     try {
       await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
     } catch (error) {
       console.log(error);
-      process.exit(1);
+      resolve({
+        link: "",
+      });
+      // process.exit(1);
     }
     console.log("evaluating");
-    await page.bringToFront();
-    // await page.keyboard.press(String.fromCharCode(32));
-    await page.keyboard.press(String.fromCharCode(32));
+
     // await page.keyboard.press(String.fromCharCode(32));
     const result = await page.evaluate(pageScrapeAlgo);
     console.log(result, 57);
+
+    // return;
     // return;
     let newresult = "";
 
@@ -91,35 +101,58 @@ function facebookpostpreparation(
 
       await preparepostingpage(brandnewpage);
       posttogroup(brandnewpage, result, newid).then(async (res) => {
-        if (activepostpages.length > 1) {
-          await res.page.close();
+        try {
+          if (activepostpages.length > 1) {
+            await res.page.close();
+          }
+          activepostpages = activepostpages.filter((item) => res.id != item.id);
+
+          pagesidPosting = pagesidPosting.filter((pageid) => pageid !== res.id);
+          resolve("done");
+        } catch (error) {
+          console.log(error);
+          resolve("done");
         }
-        activepostpages = activepostpages.filter((item) => res.id != item.id);
-        pagesidPosting = pagesidPosting.filter((pageid) => pageid !== res.id);
       });
     } else {
       pagesidPosting.push(useLastPagePushedid);
       posttogroup(useLastPagePushed, result, useLastPagePushedid).then(
         async (res) => {
-          if (activepostpages.length > 1) {
-            await res.page.close();
+          try {
+            if (activepostpages.length > 1) {
+              await res.page.close();
+            }
+            activepostpages = activepostpages.filter(
+              (item) => res.id != item.id
+            );
+            pagesidPosting = pagesidPosting.filter(
+              (pageid) => pageid !== res.id
+            );
+            resolve("done");
+          } catch (error) {
+            console.log(error);
+            resolve("done");
           }
-          activepostpages = activepostpages.filter((item) => res.id != item.id);
-          pagesidPosting = pagesidPosting.filter((pageid) => pageid !== res.id);
         }
       );
     }
-    resolve("done");
   });
 }
 function posttogroup(page, post, id) {
   return new Promise(async (resolve, reject) => {
     console.log("done");
 
-    const element = await page.$(
-      `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
-      // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
-    );
+    let element;
+    try {
+      await page.bringToFront();
+      element = await page.$(
+        `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
+        // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
+      );
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
     // const element = await page.$x(
     //   "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
     //   // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
@@ -130,7 +163,13 @@ function posttogroup(page, post, id) {
 
     const formpath =
       "//BODY/div/div/div/div/div[4]/div/div/div/div/div[2]/div/div/div/div/div/form/div/div/div/div/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div";
-    await page.waitForXPath(formpath);
+
+    try {
+      await page.waitForXPath(formpath);
+    } catch (error) {
+      console.log(error);
+      resolve({ page, id });
+    }
 
     const fform = await page.$x(formpath);
 
@@ -183,7 +222,7 @@ function posttogroup(page, post, id) {
     console.log("done");
 
     // need to find a way to wait for this before close
-    await delay(60000);
+    await delay(10000);
     resolve({ page, id });
     console.log("done");
   });
@@ -206,7 +245,9 @@ function preparepostingpage(page) {
           "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
         );
     } catch (error) {
-      process.exit(1);
+      // process.exit(1);
+
+      resolve(page);
     }
 
     resolve(page);

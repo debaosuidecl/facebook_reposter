@@ -40,10 +40,13 @@ const INDEX = 8;
       try {
         result = await fetchResultsForGroup2(
           page,
-          "https://www.facebook.com/groups/404743450894440/"
+          "https://www.facebook.com/groups/freebiesdealsfinder/"
+          // "https://www.facebook.com/groups/404743450894440/"
+          // "https://www.facebook.com/groups/404743450894440/"
         );
       } catch (error) {
         console.log(error);
+
         continue;
       }
       //   if (false) {
@@ -57,9 +60,8 @@ const INDEX = 8;
         if (result && result !== latestText) {
           latestText = result;
           console.log("writing result to file", result);
-          fs.writeFile(`./recentpost/recent${INDEX}.txt`, result, () => {
-            console.log("written");
-          });
+          fs.writeFileSync(`./recentpost/recent${INDEX}.txt`, result);
+          console.log("written");
 
           // post to facebook
 

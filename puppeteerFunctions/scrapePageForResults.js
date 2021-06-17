@@ -1,6 +1,5 @@
 // @ts-nocheck
 async function pageScrapeAlgo() {
-  // console.log("hellllooooo");
   function getElementByXpath(path) {
     return document.evaluate(
       path,
@@ -33,9 +32,6 @@ async function pageScrapeAlgo() {
   let headings = document.querySelectorAll(
     `.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`
   );
-  // let headings = document.querySelectorAll(
-  //   `.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`
-  // );
 
   if (headings.length <= 0) {
     console.log("locating by xpath");
@@ -50,7 +46,20 @@ async function pageScrapeAlgo() {
   const headingList = [];
   let reallink = "";
   headerloop: for (let i = 0; i < headings.length; i++) {
-    const linksforthisheading = headings[i].querySelectorAll("a");
+    let seemore;
+
+    seemore = headings[i].querySelector("div.oajrlxb2.g5ia77u1");
+    console.log(seemore, "seemore");
+    if (seemore) {
+      console.log("seeemore seen", seemore);
+      seemore.click();
+    }
+
+    await delay(200);
+    const linksforthisheading = document
+      .querySelectorAll(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`)
+      [i].querySelectorAll("a");
+    // const linksforthisheading = headings[i].querySelectorAll("a");
 
     let selectedlink = "";
 
@@ -82,17 +91,22 @@ async function pageScrapeAlgo() {
       continue;
     }
 
-    let possibleTextInArray = headings[i].innerText
-      .replace(/\n/g, " ")
+    let possibleTextInArray = document
+      .querySelectorAll(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`)
+      [i].innerText.replace(/\n/g, " ")
       .replace(/(#\S+)/gi, "") // remove # tags
       .replace("See More", "")
       .replace("…", "")
       .replace("ave", "save")
-      .trim()
+
       .replace(/http/, selectedlink)
       .replace(urlRegex, selectedlink)
       .replace()
-      .split("Could we now")[0];
+      .split("Could we now")[0]
+      .split("COMMENT")[0]
+      .split("Price and availability are accurate")[0]
+      .split("This is an Affiliate post")[0]
+      .trim();
 
     reallink = selectedlink;
     //   .split(". ");

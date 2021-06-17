@@ -14,7 +14,7 @@ const INDEX = 10;
 
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       //   slowMo: 10,
     });
     const pageinit = await signIn(browser);
@@ -58,9 +58,8 @@ const INDEX = 10;
         if (result && result !== latestText) {
           latestText = result;
           console.log("writing result to file", result);
-          fs.writeFile(`./recentpost/recent${INDEX}.txt`, result, () => {
-            console.log("written");
-          });
+          fs.writeFileSync(`./recentpost/recent${INDEX}.txt`, result);
+          console.log("written");
 
           // post to facebook
 

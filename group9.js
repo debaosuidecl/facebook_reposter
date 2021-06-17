@@ -30,6 +30,8 @@ const INDEX = 9;
       },
     ];
 
+    // let bl = "𝐁𝐔𝐘 𝐎𝐍𝐄 𝐆𝐄𝐓 𝐎𝐍𝐄 𝐅𝐑𝐄𝐄!"
+
     initfacebookpostingpage = await preparepostingpage(
       activepostpages.find((p) => p.id === initid).page
     );
@@ -58,9 +60,8 @@ const INDEX = 9;
         if (result && result !== latestText) {
           latestText = result;
           console.log("writing result to file", result);
-          fs.writeFile(`./recentpost/recent${INDEX}.txt`, result, () => {
-            console.log("written");
-          });
+          fs.writeFileSync(`./recentpost/recent${INDEX}.txt`, result);
+          console.log("written");
 
           // post to facebook
 

@@ -28,13 +28,31 @@ function pricingError(post) {
   return true;
 }
 
+function buyonegetonefree(post = "") {
+  if (
+    post.match(/𝐁𝐔𝐘 𝐎𝐍𝐄 𝐆𝐄𝐓 𝐎𝐍𝐄 𝐅𝐑𝐄𝐄/g) ||
+    post.replace(/"  "/g, " ").match(/buy one get one free/gi)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 function grandMatch(post = "") {
   console.log(
     matchPercentageNumber(post),
     matchFree(post),
     matchGlitch(post),
-    pricingError(post)
+    pricingError(post),
+    buyonegetonefree(post)
   );
+
+  if (buyonegetonefree(post)) {
+    console.log("buyone get one free");
+    return false;
+  }
+
   if (
     matchPercentageNumber(post) ||
     matchFree(post) ||
