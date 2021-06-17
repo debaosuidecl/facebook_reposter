@@ -66,6 +66,8 @@ function fetchResultsForGroup2(page, groupurl) {
       return "done";
     });
 
+    // page.$eval("#element", (el) => el.scrollIntoView());
+
     await delay(1000);
     // await page.keyboard.press(String.fromCharCode(32));
     // await page.keyboard.press(String.fromCharCode(32));
@@ -73,6 +75,12 @@ function fetchResultsForGroup2(page, groupurl) {
     // await page.keyboard.press(String.fromCharCode(32));
     try {
       await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
+
+      page.$eval(".dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt", (el) =>
+        el.scrollIntoView()
+      );
+
+      await delay(1000);
     } catch (error) {
       console.log(error);
       resolve({
