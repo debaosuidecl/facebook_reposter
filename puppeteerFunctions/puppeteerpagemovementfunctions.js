@@ -82,10 +82,8 @@ function fetchResultsForGroup2(page, groupurl) {
 
       await delay(1000);
     } catch (error) {
-      console.log(error);
-      resolve({
-        link: "",
-      });
+      console.log(error, "here");
+      resolve("");
       // process.exit(1);
     }
     console.log("evaluating");
