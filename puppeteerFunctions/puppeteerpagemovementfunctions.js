@@ -6,7 +6,7 @@ const axios = require("axios");
 function getlonglinkAndTransform(shortlink = "", post) {
   return new Promise(async (resolve, reject) => {
     if (shortlink.indexOf("amzn.to") === -1) {
-      resolve(newpost);
+      resolve(post);
     }
     try {
       let res = await axios.get(shortlink);
