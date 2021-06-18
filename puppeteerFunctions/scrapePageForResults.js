@@ -55,7 +55,7 @@ async function pageScrapeAlgo() {
       seemore.click();
     }
 
-    await delay(200);
+    // await delay(200);
     const linksforthisheading = document
       .querySelectorAll(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`)
       [i].querySelectorAll("a");
@@ -101,7 +101,12 @@ async function pageScrapeAlgo() {
 
       .replace(/http/, selectedlink)
       .replace(urlRegex, selectedlink)
-      .replace()
+      .replace(/0 %/g, "0%")
+      .replace(/5 %/g, "5%")
+      .replace(/6 %/g, "6%")
+      .replace(/7 %/g, "7%")
+      .replace(/8 %/g, "8%")
+      .replace(/9 %/g, "9%")
       .split("Could we now")[0]
       .split("COMMENT")[0]
       .split("Price and availability are accurate")[0]
