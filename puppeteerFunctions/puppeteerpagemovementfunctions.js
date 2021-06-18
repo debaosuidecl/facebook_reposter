@@ -70,9 +70,9 @@ function fetchResultsForGroup2(page, groupurl) {
     try {
       await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
 
-      // page.$eval(".dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt", (el) =>
-      //   el.scrollIntoView()
-      // );
+      page.$eval(".dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt", (el) =>
+        el.scrollIntoView()
+      );
 
       // await delay(1000);
     } catch (error) {
