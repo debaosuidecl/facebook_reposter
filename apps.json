@@ -1,0 +1,51 @@
+{"apps": [
+    
+    {
+        "name": "group1",
+        "script": "group1.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group2",
+        "script": "group2.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group3",
+        "script": "group3.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group4",
+        "script": "group4.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group6",
+        "script": "group6.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group7",
+        "script": "group7.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group8",
+        "script": "group8.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group9",
+        "script": "group9.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      },
+    {
+        "name": "group10",
+        "script": "group10.js",
+        "node_args": "--expose-gc --max_old_space_size=50768"
+      }
+
+]
+
+}
