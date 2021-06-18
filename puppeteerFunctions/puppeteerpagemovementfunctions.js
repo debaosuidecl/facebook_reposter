@@ -171,16 +171,26 @@ function posttogroup(page, post, id) {
         `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
         // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
       );
+
+      await page.click(
+        `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
+      );
+
+      console.log(element);
     } catch (error) {
       console.log(error);
       process.exit(1);
     }
+
+    // console.log(element, 181);
+
     // const element = await page.$x(
     //   "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
     //   // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
     // );
     // console.log(element, "xpath element");
-    await element.click();
+
+    // await element.click();
     console.log("clicked");
 
     const formpath =
