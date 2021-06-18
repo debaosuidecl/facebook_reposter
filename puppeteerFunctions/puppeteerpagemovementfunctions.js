@@ -3,8 +3,11 @@ const pageScrapeAlgo = require("./scrapePageForResults");
 const delay = require("./delay");
 const axios = require("axios");
 
-function getlonglinkAndTransform(shortlink, post) {
+function getlonglinkAndTransform(shortlink = "", post) {
   return new Promise(async (resolve, reject) => {
+    if (shortlink.indexOf("amzn.to") === -1) {
+      resolve(newpost);
+    }
     try {
       let res = await axios.get(shortlink);
       // console.log(res)
@@ -26,6 +29,10 @@ function getlonglinkAndTransform(shortlink, post) {
       // console.log(error);
       console.log(error.response.request.path, "13");
       let path = error.response.request.path;
+
+      if (path.indexOf("404ref=mpc_redirect_bot") !== -1) {
+        await getlonglinkAndTransform(shortlink, post);
+      }
       let newpost = post.replace(
         shortlink,
         `https://www.amazon.com${
@@ -53,22 +60,9 @@ function fetchResultsForGroup2(page, groupurl) {
 
     await page.bringToFront();
 
-    const vall = await page.evaluate(() => {
-      window.scroll(0, 5000);
-      window.scroll(0, 5000);
-      return "done";
-    });
-
-    console.log(vall, 61);
-    const vall2 = await page.evaluate(() => {
-      window.scroll(0, 5000);
-      window.scroll(0, 5000);
-      return "done";
-    });
-
     // page.$eval("#element", (el) => el.scrollIntoView());
 
-    await delay(1000);
+    // await delay(1000);
     // await page.keyboard.press(String.fromCharCode(32));
     // await page.keyboard.press(String.fromCharCode(32));
     // await page.keyboard.press(String.fromCharCode(32));
@@ -76,11 +70,11 @@ function fetchResultsForGroup2(page, groupurl) {
     try {
       await page.waitForSelector(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`);
 
-      page.$eval(".dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt", (el) =>
-        el.scrollIntoView()
-      );
+      // page.$eval(".dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt", (el) =>
+      //   el.scrollIntoView()
+      // );
 
-      await delay(1000);
+      // await delay(1000);
     } catch (error) {
       console.log(error, "here");
       resolve("");
@@ -171,7 +165,8 @@ function posttogroup(page, post, id) {
         `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
         // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
       );
-
+      // return;
+      console.log(element, "element");
       await page.click(
         `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
       );

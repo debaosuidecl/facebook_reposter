@@ -91,9 +91,26 @@ async function pageScrapeAlgo() {
       continue;
     }
 
-    let possibleTextInArray = document
-      .querySelectorAll(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`)
-      [i].innerText.replace(/\n/g, " ")
+    let mytext =
+      document.querySelectorAll(`.dati1w0a.ihqw7lf3.hv4rvrfc.ecm0bbzt`)[i]
+        .innerText || "";
+
+    let mytextarray = mytext.split(" ");
+
+    for (let p = 0; p < mytextarray.length; p++) {
+      if (urlRegex.test(mytextarray[p])) {
+        if (
+          mytextarray[p].indexOf("amzn.to") !== -1 ||
+          mytextarray[p].indexOf("amazon.com") !== -1
+        ) {
+          console.log("13", mytextarray[p]);
+          mytext = mytext.replace(mytextarray[p], "");
+        }
+      }
+    }
+
+    let possibleTextInArray = mytext
+      .replace(/\n/g, " ")
       .replace(/(#\S+)/gi, "") // remove # tags
       .replace("See More", "")
       .replace("…", "")
@@ -109,8 +126,11 @@ async function pageScrapeAlgo() {
       .replace(/9 %/g, "9%")
       .split("Could we now")[0]
       .split("COMMENT")[0]
+      .split("JOIN TELEGRAM")[0]
+      .split("DROP A HEART")[0]
       .split("Price and availability are accurate")[0]
       .split("This is an Affiliate post")[0]
+      .split("𝘓𝘦𝘵 𝘮𝘦 𝘬𝘯𝘰𝘸")[0]
       .trim();
 
     reallink = selectedlink;
