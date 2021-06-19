@@ -95,7 +95,7 @@ const INDEX = 5;
 
   try {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       //   slowMo: 10,
     });
     const pageinit = await signIn(browser);
