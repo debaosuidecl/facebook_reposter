@@ -86,7 +86,7 @@ function fetchResultsForGroup2(page, groupurl) {
     const result = await page.evaluate(pageScrapeAlgo);
     console.log(result, 57);
 
-    // return;
+    return;
     // return;
     let newresult = "";
 
@@ -99,71 +99,32 @@ function fetchResultsForGroup2(page, groupurl) {
   });
 }
 function facebookpostpreparation(
-  activepostpages,
-  pagesidPosting,
+  // activepostpages,
+  // pagesidPosting,
   result,
-  browser
+  // browser,
+  page
 ) {
   return new Promise(async (resolve, reject) => {
-    let useLastPagePushed = activepostpages[activepostpages.length - 1].page;
-    let useLastPagePushedid = activepostpages[activepostpages.length - 1].id;
-    if (pagesidPosting.indexOf(useLastPagePushedid) !== -1) {
-      const newid = Math.random();
-      let brandnewpage = await browser.newPage();
-      activepostpages.push({
-        page: brandnewpage,
-        id: newid,
-      });
-
-      await preparepostingpage(brandnewpage);
-      posttogroup(brandnewpage, result, newid).then(async (res) => {
-        try {
-          if (activepostpages.length > 1) {
-            await res.page.close();
-          }
-          activepostpages = activepostpages.filter((item) => res.id != item.id);
-
-          pagesidPosting = pagesidPosting.filter((pageid) => pageid !== res.id);
-          resolve("done");
-        } catch (error) {
-          console.log(error);
-          resolve("done");
-        }
-      });
-    } else {
-      pagesidPosting.push(useLastPagePushedid);
-      posttogroup(useLastPagePushed, result, useLastPagePushedid).then(
-        async (res) => {
-          try {
-            if (activepostpages.length > 1) {
-              await res.page.close();
-            }
-            activepostpages = activepostpages.filter(
-              (item) => res.id != item.id
-            );
-            pagesidPosting = pagesidPosting.filter(
-              (pageid) => pageid !== res.id
-            );
-            resolve("done");
-          } catch (error) {
-            console.log(error);
-            resolve("done");
-          }
-        }
-      );
-    }
+    posttogroup(page, result).then(async (res) => {
+      try {
+        resolve("done");
+      } catch (error) {
+        console.log(error);
+        resolve("done");
+      }
+    });
   });
 }
-function posttogroup(page, post, id) {
+function posttogroup(page, post) {
   return new Promise(async (resolve, reject) => {
     console.log("done");
 
+    await preparepostingpage(page);
     let element;
     try {
-      await page.bringToFront();
       element = await page.$(
         `[data-pagelet="GroupInlineComposer"] .a8c37x1j.ni8dbmo4.stjgntxs.l9j0dhe7`
-        // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
       );
       // return;
       console.log(element, "element");
@@ -177,15 +138,6 @@ function posttogroup(page, post, id) {
       process.exit(1);
     }
 
-    // console.log(element, 181);
-
-    // const element = await page.$x(
-    //   "BODY/div/div/div/div/div[3]/div/div/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
-    //   // "//BODY/div/div/div/div/div[3]/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div/div/div/div/div/div/div/div/span"
-    // );
-    // console.log(element, "xpath element");
-
-    // await element.click();
     console.log("clicked");
 
     const formpath =
@@ -195,7 +147,7 @@ function posttogroup(page, post, id) {
       await page.waitForXPath(formpath);
     } catch (error) {
       console.log(error);
-      resolve({ page, id });
+      resolve({ page });
     }
 
     const fform = await page.$x(formpath);
@@ -227,7 +179,7 @@ function posttogroup(page, post, id) {
         txt.remove();
       }
 
-      copyToClp(post);
+      copyToClp("this is a test post:> " + post, post);
       return post;
     }, post);
 
@@ -244,13 +196,14 @@ function posttogroup(page, post, id) {
     await page.keyboard.up("Control");
 
     const postbutton = await page.$(`[aria-label="Post"]`);
+    await delay(3000);
     await postbutton.click();
-    await postbutton.click();
+    // await postbutton.click();
     console.log("done");
 
     // need to find a way to wait for this before close
     await delay(10000);
-    resolve({ page, id });
+    resolve({ page });
     console.log("done");
   });
 }

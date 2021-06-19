@@ -2,7 +2,7 @@ const axios = require("axios");
 (async () => {
   console.time("retrieve");
   try {
-    let res = await axios.get("https://amzn.to/3iJaTWS?tag=rios0f76-20");
+    let res = await axios.get("https://amzn.to/3cRlJ9y");
     // console.log(res)
 
     // res.data = "";

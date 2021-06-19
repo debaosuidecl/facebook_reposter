@@ -5,7 +5,7 @@ const fs = require("fs");
 const {
   fetchResultsForGroup2,
   facebookpostpreparation,
-  preparepostingpage,
+  // preparepostingpage,
 } = require("./puppeteerFunctions/puppeteerpagemovementfunctions");
 
 const INDEX = 10;
@@ -14,27 +14,13 @@ const INDEX = 10;
 
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       //   slowMo: 10,
     });
     const pageinit = await signIn(browser);
 
     const page = await browser.newPage();
-
-    let initfacebookpostingpage = await browser.newPage();
-    let initid = Math.random();
-    let activepostpages = [
-      {
-        id: initid,
-        page: initfacebookpostingpage,
-      },
-    ];
-
-    initfacebookpostingpage = await preparepostingpage(
-      activepostpages.find((p) => p.id === initid).page
-    );
     console.log("navigation done");
-    let pagesidPosting = [];
     while (true) {
       console.time("timer");
       let result;
@@ -47,7 +33,7 @@ const INDEX = 10;
         console.log(error);
         continue;
       }
-      //   if (false) {
+      // if (false) {
       if (!grandMatch(result)) {
         console.log("there is no match");
         console.timeEnd("timer");
@@ -63,12 +49,7 @@ const INDEX = 10;
 
           // post to facebook
 
-          await facebookpostpreparation(
-            activepostpages,
-            pagesidPosting,
-            result,
-            browser
-          );
+          await facebookpostpreparation(result, page);
 
           // post to facebook done
         }

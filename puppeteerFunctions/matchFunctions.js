@@ -39,13 +39,24 @@ function buyonegetonefree(post = "") {
   return false;
 }
 
+function invitelinks(post = "") {
+  if (
+    post.match(/t.me/g) ||
+    post.replace(/"  "/g, " ").match(/buy one get one free/gi)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 function grandMatch(post = "") {
   console.log(
-    matchPercentageNumber(post),
-    matchFree(post),
-    matchGlitch(post),
-    pricingError(post),
-    buyonegetonefree(post)
+    matchPercentageNumber(post || ""),
+    matchFree(post || ""),
+    matchGlitch(post || ""),
+    pricingError(post || ""),
+    buyonegetonefree(post || "")
   );
 
   if (buyonegetonefree(post)) {
