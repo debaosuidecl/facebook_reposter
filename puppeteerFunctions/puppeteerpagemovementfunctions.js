@@ -86,7 +86,7 @@ function fetchResultsForGroup2(page, groupurl) {
     const result = await page.evaluate(pageScrapeAlgo);
     console.log(result, 57);
 
-    return;
+    // return;
     // return;
     let newresult = "";
 
