@@ -53,9 +53,7 @@ function fetchResultsForGroup2(page, groupurl) {
       await page.waitForSelector(`[href="${groupurl}"]`);
     } catch (error) {
       console.log(error);
-      resolve({
-        link: "",
-      });
+      resolve("");
     }
 
     await page.bringToFront();
